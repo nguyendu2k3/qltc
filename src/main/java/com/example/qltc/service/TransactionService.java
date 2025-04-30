@@ -106,4 +106,17 @@ public class TransactionService {
             throw new IllegalArgumentException("Invalid transaction type: " + typeStr);
         }
     }
+    public List<TransactionResponse> getAllByCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+        List<Transaction> transactions = transactionRepository.findByCategory(category);
+        return transactionMapper.toTransactionResponseList(transactions);
+    }
+
+    public List<TransactionResponse> getAllByUserAndType(Long userId, TransactionType type) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        List<Transaction> transactions = transactionRepository.findByUserAndType(user, type);
+        return transactionMapper.toTransactionResponseList(transactions);
+    }
 }

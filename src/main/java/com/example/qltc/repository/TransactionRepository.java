@@ -2,6 +2,7 @@ package com.example.qltc.repository;
 
 import com.example.qltc.entity.Transaction;
 import com.example.qltc.entity.User;
+import com.example.qltc.entity.Category;
 import com.example.qltc.enums.TransactionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +12,8 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     List<Transaction> findByUser(User user);
+
+    List<Transaction> findByCategory(Category category);
 
     List<Transaction> findByUserAndType(User user, TransactionType type);
 
@@ -25,4 +28,4 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query("SELECT t.category.name, SUM(t.amount) FROM Transaction t WHERE t.user = :user AND t.type = :type AND t.date BETWEEN :start AND :end GROUP BY t.category.name")
     List<Object[]> getTotalByCategoryInPeriod(User user, TransactionType type, LocalDate start, LocalDate end);
 
-}
+    }

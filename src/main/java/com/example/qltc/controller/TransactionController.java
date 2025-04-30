@@ -28,6 +28,19 @@ public class TransactionController {
     public ResponseEntity<TransactionResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(transactionService.getById(id));
     }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<TransactionResponse>> getAllByCategory(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(transactionService.getAllByCategory(categoryId));
+    }
+
+    @GetMapping("/user/{userId}/type")
+    public ResponseEntity<List<TransactionResponse>> getAllByUserAndType(
+            @PathVariable Long userId,
+            @RequestParam TransactionType type) {
+        return ResponseEntity.ok(transactionService.getAllByUserAndType(userId, type));
+    }
+
     //Tạo mới giao dịch
     @PostMapping
     public ResponseEntity<TransactionResponse> create(@RequestBody TransactionRequest request) {
